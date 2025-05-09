@@ -1,0 +1,133 @@
+Post Installation of PGadmin4 Important: Connecting PGadmin to Render db
+in connection TAB
+1. External URL remove left side of @ including @
+2. External URL rightmost side remove database name from URL make sure it ends with .com or ends with .com/
+username: username from render db dashboard
+Password: password from render db dashboard
+
+in General Tab:
+Name is A unique name for your database. from render db dashboard
+
+
+
+
+Sure! Here's a **Quick Guide** for installing PGAdmin4 on Ubuntu 16.04 using **Docker**, listing the Docker containers in action, and stopping/deleting the Docker container.
+
+---
+
+### **1. Steps and Commands to Install PGAdmin4 on Ubuntu 16.04 Using Docker**
+
+#### Step 1: **Install Docker**  
+If Docker is not already installed, follow these steps:
+
+```bash
+# Update package list
+sudo apt update
+
+# Install Docker
+sudo apt install docker.io
+
+# Start Docker service
+sudo systemctl start docker
+
+# Enable Docker to start on boot
+sudo systemctl enable docker
+```
+
+#### Step 2: **Run PGAdmin4 in Docker**
+
+Run the latest PGAdmin4 container with the following command:
+
+```bash
+# Run PGAdmin4 in Docker
+docker run -p 5050:80 \
+  -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+  -e 'PGADMIN_DEFAULT_PASSWORD=secret' \
+  -d dpage/pgadmin4
+```
+
+- Replace `'user@domain.com'` with your preferred email.
+- Replace `'secret'` with your desired password.
+
+This will start the PGAdmin4 container in the background and map the port 5050 on your host machine to port 80 inside the container.
+
+#### Step 3: **Access PGAdmin4**
+
+Open your web browser and navigate to:
+
+> **http://localhost:5050**
+
+Login with the email and password you set in the command.
+
+---
+
+### **2. Steps to List Running Docker Containers**
+
+To list the running Docker containers, use this command:
+
+```bash
+# List running Docker containers
+docker ps
+```
+
+This will show all containers that are running on your system.
+
+---
+
+### **3. Steps to Stop and Delete/Uninstall the PGAdmin4 Docker Container**
+
+#### Step 1: **Stop the Running PGAdmin4 Container**
+
+To stop the container:
+
+```bash
+# List the running containers to get the container ID or name
+docker ps
+
+# Stop the container (replace <container_id> with the actual container ID or name)
+docker stop <container_id>
+```
+
+#### Step 2: **Remove the PGAdmin4 Docker Container**
+
+After stopping the container, you can remove it:
+
+```bash
+# Remove the container (replace <container_id> with the actual container ID or name)
+docker rm <container_id>
+```
+
+#### Step 3: **Uninstall Docker (Optional)**
+
+If you want to uninstall Docker completely from your system:
+
+```bash
+# Uninstall Docker
+sudo apt-get remove docker.io
+
+# Remove Docker dependencies
+sudo apt-get purge docker.io
+
+# Remove Docker configuration files
+sudo rm -rf /var/lib/docker
+```
+
+This will completely remove Docker from your Ubuntu 16.04 machine.
+
+---
+
+### **Summary**
+
+| **Step** | **Command/Action** |
+|:---|:---|
+| **Install Docker** | `sudo apt install docker.io` |
+| **Run PGAdmin4 in Docker** | `docker run -p 5050:80 -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' -e 'PGADMIN_DEFAULT_PASSWORD=secret' -d dpage/pgadmin4` |
+| **Access PGAdmin4** | Open `http://localhost:5050` in your browser |
+| **List Running Docker Containers** | `docker ps` |
+| **Stop Docker Container** | `docker stop <container_id>` |
+| **Remove Docker Container** | `docker rm <container_id>` |
+| **Uninstall Docker (Optional)** | `sudo apt-get remove docker.io` |
+
+---
+
+Let me know if you need any further clarification or help with the steps!
