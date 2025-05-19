@@ -1,5 +1,109 @@
-Awesome — let’s do it!  
-I'll write a **professional-style README** for your GitHub project, based on everything you've shared with me.
+# About this Commit
+Title: Component-Based + SPA Routing (React Router)
+-- Goal:
+-- Navigate to a new page when button View Porfolio is clicked
+
+
+Frount end page rendering is Handled using **React Router** and a technique called **layout-based routing**.
+
+---
+
+## ✅ What You Need
+
+### 📦 Software Development Technique:
+
+Use **Component-Based Architecture** along with **Client-Side Routing (CSR)** using **React Router v6**. This is a common and scalable approach in modern frontend development.
+
+---
+
+## 🛠️ Step-by-Step Refactor Plan
+
+### 1. 📦 Install React Router
+
+From your `frontend` folder, run:
+
+```bash
+npm install react-router-dom
+```
+
+---
+
+### 2. 📁 Suggested Project Structure Update
+
+You can refactor your project structure as:
+
+```
+src/
+├── App.jsx               --> Define routes here
+├── api.js
+├── main.jsx
+├── components/
+│   └── Navbar.jsx        --> Top navigation bar
+├── pages/
+│   ├── Home.jsx          --> "Welcome" page
+│   └── Portfolio.jsx     --> "Portfolio of Rajesh" page
+```
+
+---
+
+### 3. 🧠 Create Shared Layout: `Navbar.jsx`
+
+
+
+### 4. 🏠 Create Home Page: `Home.jsx`
+
+---
+
+### 5. 📂 Create Portfolio Page: `Portfolio.jsx`
+
+
+
+---
+
+### 6. 🧭 Set Up Routing in `App.jsx`
+
+
+
+---
+
+## ✅ Final Outcome
+
+* You now have **clean separation of concerns**: UI split across `Navbar`, `Home`, and `Portfolio`.
+* Only `App.jsx` knows about routing.
+* Navigation logic is handled by React Router, not `window.location.href`.
+* You can add more pages later (like `/about`, `/settings`, etc.) easily.
+
+---
+
+## 🚀 Summary: Why This Is a Best Practice
+
+| Feature                | Technique Used            |
+| ---------------------- | ------------------------- |
+| Shared layout (Navbar) | Component Composition     |
+| Dynamic page rendering | React Router (CSR)        |
+| Code separation        | Component-based structure |
+| Easy to scale          | Yes ✅                     |
+
+---
+
+### ✅ Software Architecture Technique Used:
+
+#### Component-Based + SPA Routing (React Router):
+
+    * Encapsulation: Each page is isolated in pages/.
+
+    * Reusability: Navbar can be reused across pages.
+
+    * Maintainability: Business logic is separated from layout.
+
+    * Scalability: You can add /dashboard, /settings, etc. easily.
+
+
+
+
+### end of Commit
+
+
 
 ---
 
@@ -25,7 +129,9 @@ A **full-stack application** that allows users to **log in with their GitHub acc
 **Frontend:**
 - React (Vite setup)
 - Axios for HTTP requests
-- TailwindCSS (optional if you used it)
+- TailwindCSS
+- Updates:
+- React Router Replaces window.location.href
   
 **Backend:**
 - FastAPI
@@ -43,19 +149,30 @@ A **full-stack application** that allows users to **log in with their GitHub acc
 
 ```
 backend/
-  ├── app/
-  │    ├── __init__.py
-  │    ├── auth.py
-  │    ├── database.py
-  │    ├── main.py
-  │    └── models.py
+	├── app/
+	│    ├── __init__.py
+	│    ├── auth.py
+	│    ├── database.py
+	│    ├── main.py
+	│    └── models.py
 frontend/
-  ├── src/
-  │    ├── App.jsx
-  │    ├── main.jsx
-  ├── vite.config.js
-  ├── package.json
+	src/
+	├── App.jsx               <-- Handles routing and global state
+	├── api.js
+	├── main.jsx
+	├── components/
+	│   └── Navbar.jsx        <-- Top bar with Logout, Delete, Avatar
+	├── pages/
+	│   ├── Home.jsx          <-- Home with Login/Welcome + "View Portfolio"
+	│   └── Portfolio.jsx     <-- Page rendered when button clicked
+
 ```
+
+
+---
+
+
+
 
 ---
 
@@ -138,7 +255,7 @@ frontend/
 
 ---
 
-## Deployment on Render
+## Deployment on locally
 
 - Backend: Deployed as a **FastAPI** web service with PostgreSQL database add-on.
 - Frontend: Deployed as a **Static Site**.
@@ -147,7 +264,7 @@ frontend/
 ---
 
 
-## Deployment on Render
+## Deployment locally
 - Clean Slate:
 ```
 docker compose down -v
@@ -188,6 +305,7 @@ http://localhost:5050/
 - Better error handling (e.g., GitHub errors, token expiry)
 - Rate limiting for security
 - Support login with other OAuth providers (Google, Twitter)
+- ✅ Frontend: Use npm ci in CI/CD for exact, lockfile-based installs (optional but great)
 
 ---
 
@@ -217,5 +335,4 @@ Feel free to use, modify, and distribute!
 
 🎯
 
-Sensitive data i have stored in my Google Drive 
-Classroom/CloudDataScience/github-oauth-app/README.md
+
