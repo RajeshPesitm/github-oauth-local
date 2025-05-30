@@ -18,8 +18,12 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
-    env_file:
-      - ./backend/app/.env   # 👈 Loads your env variables
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+      GITHUB_CLIENT_ID: "${SGITHUB_CLIENT_ID}"
+      GITHUB_CLIENT_SECRET: "${SGITHUB_CLIENT_SECRET}"
+      JWT_SECRET_KEY: "${JWT_SECRET_KEY}"
+      FRONTEND_URL: "${FRONTEND_URL}"
     depends_on:
       - db
 
@@ -27,7 +31,7 @@ services:
     build: ./frontend
     volumes:
        - ./frontend:/app:delegated
-       - /app/node_modules   # <<< preserve the container’s node_modules
+       - /app/node_modules
     ports:
       - "5173:5173"
     environment:
@@ -38,6 +42,13 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: rajesh@pestrust.edu.in
       PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED: "False"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+      PGADMIN_CONFIG_PROXY_X_HOST_COUNT: "1"
+      PGADMIN_CONFIG_PROXY_X_PREFIX: "'/'" 
+      PGADMIN_CONFIG_APP_NAME: "'pgAdmin'"
+      PGADMIN_CONFIG_LOGIN_BANNER:  "'Welcome to pgAdmin on Codespaces'"
     ports:
       - "5050:80"
     depends_on:
@@ -48,4 +59,3 @@ services:
 volumes:
   db_data:
   pgadmin_data:
-

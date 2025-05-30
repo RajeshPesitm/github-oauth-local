@@ -1,23 +1,63 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import api from "./api";
+// src/App.jsx
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
+import api from "./api";
 
 function App() {
   const [user, setUser] = useState(null);
 
-  const loginWithGithub = async () => {
-    const res = await api.get("/auth/github/login");
-    window.location.href = res.data.url;
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchUser(token);
+    }
+
+    window.addEventListener("message", (event) => {
+      console.log("Received postMessage", event.origin, event.data);
+
+      const allowedOrigins = [
+        "https://fantastic-capybara-jj9v694r4qrcqpr4-8000.app.github.dev", // backend
+        "https://fantastic-capybara-jj9v694r4qrcqpr4-5173.app.github.dev", // frontend
+      ];
+      if (!allowedOrigins.includes(event.origin)) return;
+
+      const token = event.data?.token;
+      if (token) {
+        localStorage.setItem("token", token);
+        fetchUser(token);
+      }
+    });
+  }, []);
 
   const fetchUser = async (token) => {
-    const res = await api.get("/auth/me", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    setUser(res.data);
+    try {
+      const res = await api.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(res.data);
+    } catch (err) {
+      console.error("Failed to fetch user", err);
+    }
+  };
+
+  const loginWithGithub = async () => {
+    try {
+      const res = await api.get("/auth/github/login");
+      const authWindow = window.open(res.data.url, "_blank", "width=600,height=700");
+
+      const interval = setInterval(() => {
+        if (authWindow.closed) {
+          clearInterval(interval);
+        }
+      }, 500);
+    } catch (err) {
+      console.error("GitHub login failed", err);
+    }
   };
 
   const logout = () => {
@@ -26,49 +66,18 @@ function App() {
   };
 
   const deleteAccount = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    try {
+      const token = localStorage.getItem("token");
       await api.delete("/auth/delete", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       logout();
+    } catch (err) {
+      console.error("Account deletion failed", err);
     }
   };
-
-  const checkForCallback = async () => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("access_token");
-    const code = params.get("code");
-
-    if (token) {
-      localStorage.setItem("token", token);
-      await fetchUser(token);
-      window.history.replaceState({}, document.title, "/");
-    } else if (code) {
-      const res = await api.get(`/auth/github/callback?code=${code}`);
-      const { access_token } = res.data;
-      localStorage.setItem("token", access_token);
-      await fetchUser(access_token);
-      window.history.replaceState({}, document.title, "/");
-    }
-  };
-
-  const loadUser = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        await fetchUser(token);
-      } catch (err) {
-        console.error("Failed to fetch user", err);
-        logout();
-      }
-    }
-  };
-
-  useEffect(() => {
-    checkForCallback();
-    loadUser();
-  }, []);
 
   return (
     <Router>

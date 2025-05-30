@@ -3,7 +3,6 @@ FROM node:20
 WORKDIR /app
 
 COPY package.json vite.config.js /app/
-COPY .env /app/.env
 RUN npm install
 
 COPY ./src /app/src

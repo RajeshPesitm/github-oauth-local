@@ -1,10 +1,113 @@
 # About this Commit
-Title: Component-Based + SPA Routing (React Router)
--- Goal:
--- Navigate to a new page when button View Porfolio is clicked
+### Title: Component-Based + SPA Routing (React Router) deployed on GITHUB codespace
+##### Goal: Deploy the App in GITHUB Code Space
+
+## Major Changes
+#### Environment Setup for Githuib Codespace:
+#### auth.py is Updated:
+     *     ✅ Fix Strategy.
+     *     1. Strip environment variables before using
+     *     We'll ensure to .strip() any newline or whitespace when loading from settings.
+     *     2. Add robust logging
+     *     - Logs will be added before/after key operations like:
+     *     - GitHub token exchange
+     *     - User info fetch
+     *     - DB insert/select
+     *     - JWT generation
+     *     - Redirect URL composition
+#### .devcontainer/.devcontainer.json Added
+#### docker-compose.yml updated to be compatible to read Repo codespace secrets
+#### github Oauth App Home URL and Authorization callback URL Updated
+#### docker-compose Updated with additional environment seetings for pgadmin4
+#### sdgdsg
+          window.opener.postMessage({ token: "..." }, window.origin);
+          Replaced to
+          window.opener.postMessage({{ token: "{token}" }}, "{settings.FRONTEND_URL}");
+          and
+          GitHub secret FRONTEND_URL is updated to github codespace relative URL
+          FRONTEND_URL=http://localhost:5173
+          Replaced to
+          FRONTEND_URL=https://fantastic-capybara-jj9v694r4qrcqpr4-5173.app.github.dev
+
+## Environment Setup for Githuib Codespace:
+- Repo settings --> Secrets --> Codespace
+
+## Github codespace Host setup in github Oauth App:
+- In gihub Oauth App Settings i have used 
+1. Homepage URL:  https://fantastic-capybara-jj9v694r4qrcqpr4-5173.app.github.dev/
+2. Authorization callback URL:  https://fantastic-capybara-jj9v694r4qrcqpr4-8000.app.github.dev/auth/github/callback
 
 
-Frount end page rendering is Handled using **React Router** and a technique called **layout-based routing**.
+
+## Testing Codespace development
+- Is env reading properly to backend from Repo code secrete
+```
+docker compose exec backend env | grep GITHUB
+```
+
+- Does Enc values inside backend matching with Outer env values set in Repo secrets
+```
+docker compose exec backend python
+import os
+os.getenv("GITHUB_CLIENT_ID")
+from app.config import settings
+settings.GITHUB_CLIENT_ID
+
+```
+- environment variables
+```
+✅ Step 1: Check what the host shell sees
+printenv | grep FRONTEND_URL
+✅ Step 2: See what value Docker Compose is using
+docker compose config
+✅ Step 3: Check the value inside the container
+docker exec -it github-oauth-local-backend-1 env | grep FRONTEND_URL
+```
+
+
+### end of Commit
+
+
+
+---
+
+# MyOAuthApp
+
+A **full-stack application** that allows users to **log in with their GitHub account** using **OAuth 2.0**, and manages users with **FastAPI**, **PostgreSQL**, **JWT Authentication**, and a **React Frontend** — all deployed on **Render**.
+
+---
+
+## Features
+
+- 🔒 Login with GitHub OAuth
+- 🪪 JWT Token Authentication
+- 📚 User data (GitHub ID, username, avatar) saved to PostgreSQL
+- 🚪 Logout and Delete Account functionality
+- 🌐 CORS enabled for Frontend-Backend communication
+- 🚀 Deployed live using Render
+
+---
+
+## Tech Stack
+
+**Frontend:**
+- React (Vite setup)
+- Axios for HTTP requests
+- TailwindCSS
+- Updates:
+- React Router Replaces window.location.href
+  
+**Backend:**
+- FastAPI
+- SQLAlchemy (Async)
+- PostgreSQL (asyncpg driver)
+- PyJWT for JWT management
+- Uvicorn for ASGI server
+
+**Deployment:**
+- Render (for both backend and frontend)
+
+---
 
 ---
 
@@ -100,83 +203,7 @@ src/
 
 
 
-
-### end of Commit
-
-
-
----
-
-# MyOAuthApp
-
-A **full-stack application** that allows users to **log in with their GitHub account** using **OAuth 2.0**, and manages users with **FastAPI**, **PostgreSQL**, **JWT Authentication**, and a **React Frontend** — all deployed on **Render**.
-
----
-
-## Features
-
-- 🔒 Login with GitHub OAuth
-- 🪪 JWT Token Authentication
-- 📚 User data (GitHub ID, username, avatar) saved to PostgreSQL
-- 🚪 Logout and Delete Account functionality
-- 🌐 CORS enabled for Frontend-Backend communication
-- 🚀 Deployed live using Render
-
----
-
-## Tech Stack
-
-**Frontend:**
-- React (Vite setup)
-- Axios for HTTP requests
-- TailwindCSS
-- Updates:
-- React Router Replaces window.location.href
-  
-**Backend:**
-- FastAPI
-- SQLAlchemy (Async)
-- PostgreSQL (asyncpg driver)
-- PyJWT for JWT management
-- Uvicorn for ASGI server
-
-**Deployment:**
-- Render (for both backend and frontend)
-
----
-
-## Folder Structure
-
-```
-backend/
-	├── app/
-	│    ├── __init__.py
-	│    ├── auth.py
-	│    ├── database.py
-	│    ├── main.py
-	│    └── models.py
-frontend/
-	src/
-	├── App.jsx               <-- Handles routing and global state
-	├── api.js
-	├── main.jsx
-	├── components/
-	│   └── Navbar.jsx        <-- Top bar with Logout, Delete, Avatar
-	├── pages/
-	│   ├── Home.jsx          <-- Home with Login/Welcome + "View Portfolio"
-	│   └── Portfolio.jsx     <-- Page rendered when button clicked
-
-```
-
-
----
-
-
-
-
----
-
-## Setup Instructions
+## Setup Instructions: Not required when you clone this as all depndendencies are recorder in vite.config and Backend uvicorn
 
 ### Backend Setup (FastAPI)
 
@@ -296,6 +323,15 @@ http://localhost:5173/
 ```
 http://localhost:5050/
 ```
+
+## Local Host setup in github Oauth App:
+- In gihub Oauth App Settings i have used 
+1. Homepage URL:  http://localhost:5173/
+2. Authorization callback URL:  http://localhost:8000/auth/github/callback
+
+
+
+
 
 
 

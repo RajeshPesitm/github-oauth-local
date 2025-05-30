@@ -1,3 +1,29 @@
+## Setup to deploy in Github codespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 After this fix because i am running frontend in docker conatiner i rebuild front end and started:
 now in browser i am getting
 ReferenceError: axios is not defined

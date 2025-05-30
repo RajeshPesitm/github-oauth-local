@@ -1,0 +1,15 @@
+{
+  "name": "GitHub OAuth App",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspaces/github-oauth-local",
+  "forwardPorts": [5173, 8000, 5432, 5050],
+  "remoteEnv": {
+    "DATABASE_URL": "${{ secrets.DATABASE_URL }}",
+    "SGITHUB_CLIENT_ID": "${{ secrets.SGITHUB_CLIENT_ID }}",
+    "SGITHUB_CLIENT_SECRET": "${{ secrets.SGITHUB_CLIENT_SECRET }}",
+    "JWT_SECRET_KEY": "${{ secrets.JWT_SECRET_KEY }}",
+    "FRONTEND_URL": "${{ secrets.FRONTEND_URL }}"
+  },
+  "postStartCommand": "docker compose up -d"
+}
