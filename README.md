@@ -19,7 +19,7 @@
 #### docker-compose.yml updated to be compatible to read Repo codespace secrets
 #### github Oauth App Home URL and Authorization callback URL Updated
 #### docker-compose Updated with additional environment seetings for pgadmin4
-#### sdgdsg
+#### Changes to App.jsx and Repo Secrets
           window.opener.postMessage({ token: "..." }, window.origin);
           Replaced to
           window.opener.postMessage({{ token: "{token}" }}, "{settings.FRONTEND_URL}");
@@ -28,6 +28,22 @@
           FRONTEND_URL=http://localhost:5173
           Replaced to
           FRONTEND_URL=https://fantastic-capybara-jj9v694r4qrcqpr4-5173.app.github.dev
+#### Changes to App.jsx
+          ❌ 2. event.origin !== window.location.origin check is blocking it
+          In Codespaces, this might be tricky because the origin of the popup (port 8000) is different from the frontend origin (5173).
+          
+          So event.origin !== window.location.origin would fail, even though they are from same host.
+          
+          🔧 Fix: Update this condition in App.jsx:
+            // Instead of this:
+            // if (event.origin !== window.location.origin) return;
+            
+            // Do a more flexible check like:
+            const allowedOrigins = [
+                "https://fantastic-capybara-jj9v694r4qrcqpr4-8000.app.github.dev", // backend
+                "https://fantastic-capybara-jj9v694r4qrcqpr4-5173.app.github.dev", // frontend
+            ];
+            if (!allowedOrigins.includes(event.origin)) return;
 
 ## Environment Setup for Githuib Codespace:
 - Repo settings --> Secrets --> Codespace
